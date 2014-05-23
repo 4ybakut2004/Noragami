@@ -10,60 +10,132 @@ var getRandomInt = function(min, max){
 var surface;												// объект класса Surface	
 var downPanelContol;										// объект класса управлением нижним меню
 
+/**
+ * Объект холста. Главный объект ThreeJS в данном приложении.
+ * В нем происходит создание DOM элемента для отрисовки,
+ * создание объектов мира, дальнейшая их отрисовка и обновление.
+ */
 var Surface = function()
 {
-	var max = 1000;											// Все кординаты загоняются в один предел. Делятся на значение переменной max.
-	var borders = new THREE.Vector4(-1.0, -1.0, 1.2, 1.0); 	// Границы мира
 	var scene, camera, renderer;							// Экран, камера и рендер
+	var controls;											// Объект управления камерой
 	var skyBox;												// Объект класса SkyBox
-	var clock = new THREE.Clock();							// Засечка времени	
+	var prevTime;                                           // Предыдущее время
+	var resources;                                          // Ресурсы
 	
+	init();
+	animate();
+
 	/**
-	*	инициализация страницы
+	*	инициализация холста и мира
 	*/
-	var loadPage = function(){
-		scene = new THREE.Scene(); 
-		camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.0001, 7);
-		renderer = new THREE.WebGLRenderer({'antialias':true}); 	
-		
-		renderer.setSize(window.innerWidth, window.innerHeight); 
+	function init() {
+		initControls();
+		initRenderer();
+		initWorldObjects();
+		initScene();
+
+		addEventListeners();
+
+		prevTime = performance.now();
+	}
+
+	/**
+	*	Вызывается в цикле для отрисовки и изменения мира
+	*/
+	function animate() {
+		requestAnimationFrame( animate );
+
+		modify();
+
+		// В переменной delta получаем время, за которое выполнилась функция update
+		var time = performance.now();
+		var delta = ( time - prevTime ) / 1000;
+
+		// Смещаем объекты на расстояние, зависящее от delta
+		update(delta);
+
+		prevTime = time;
+
+		renderer.render( scene, camera );
+	}
+
+	/**
+	*	Инициализация всего, что связано с камерой и управлением
+	*/
+	function initControls() {
+		camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 7);
+
+		controls = new THREE.OverviewControls(camera);  // Создаем объект управления камерой
+	}
+
+	/**
+	*	Инициализация рендерера
+	*/
+	function initRenderer() {
+		renderer = new THREE.WebGLRenderer({'antialias':true});
+
+		// Настраиваем рендерер
+		renderer.setSize(window.innerWidth, window.innerHeight);
 		renderer.shadowMapEnabled = true;
 		renderer.shadowMapSoft = true;
 		renderer.gammaInput = true;
 		renderer.gammaOutput = true;
 		renderer.physicallyBasedShading = true;
 		renderer.shadowMapCullFace = THREE.CullFaceBack;
-		renderer.autoClear = false;
-		
-	    $(document.body).append(renderer.domElement);
-		
-	    skyBox = new SkyBox(loader);
-		scene.add(skyBox.getMesh());
-		
-		$(window).bind( 'resize', onWindowResize);
-		$(window).bind( 'mousedown', onDocumentMouseDown);
-		$(window).bind('keydown', onDocumentKeyDown);
-	};
-	
-	var render = function(){
-		var delta = clock.getDelta() * 1000.0;
-		
-		renderer.setViewport( 0, 0, w, h );
-		renderer.render( scene, camera );
+
+		// Добавляем DOM элемент на страницу, в котором будет происходить отрисовка
+		$(document.body).prepend(renderer.domElement);
 	}
-}
+
+	/**
+	*	Тут инициализируем объекты мира
+	*/
+	function initWorldObjects() {
+		skyBox = new SkyBox();
+	}
+
+	/**
+	*	Создаем сцену и запихиваем в нее все, что нужно
+	*/
+	function initScene() {
+		scene = new THREE.Scene();
+
+		scene.add(controls.getObject()); // Добавляем камеру в сцену
+		scene.add(skyBox.getObject());
+	}
+
+	/**
+	*	Здесь обновляем модели. Запихваем сюда все трудоемкие операции.
+	*   Время выполнения этой функции будет засекаться для
+	*   движений объектов в зависимоисти от тормозов
+	*/
+	function modify() {
+
+	}
+
+	/**
+	*	Тут двигаем все, что зависит от времени выполнения такта (delta)
+	*/
+	function update(delta) {
+		controls.update(delta);
+	}
+
+	function addEventListeners() {
+		window.addEventListener( 'resize', onWindowResize, false );
+	}
+
+	// Настраиваем камеру в зависимости от размера страницы
+	function onWindowResize() {
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
+	}
+};
 
 $(document).ready(function() 
 {
-	// Проверка поддержки веб джееля
-	if(!Detector.webgl)
-	{
-		var errorElement = document.getElementById("GLerror");
-		errorElement.style.display = "block";
-		Detector.addGetWebGLMessage({parent: errorElement});
-		return;
-	}
-	
 	surface = new Surface();
 	downPanelContol = new DownPanelControl();
 	downPanelContol.loadPage();
