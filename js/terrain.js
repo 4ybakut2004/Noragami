@@ -82,14 +82,14 @@ var Terrain = function(resources) {
 		tree.scale.z = 0.06;
 
 		tree.position.y = -0.2;
-		tree.position.z = - (i % treesCount) * 2.0 / treesCount - 0.4;
+		tree.position.z = - (i % treesCount) * 1.5 / treesCount - 0.4;
 
 		if(i < treesCount) {
-			tree.position.x = -0.4;
+			tree.position.x = -0.5;
 			treesLeft.push(tree);
 		}
 		else {
-			tree.position.x = 0.4;
+			tree.position.x = 0.5;
 			treesRight.push(tree);
 		}
 

@@ -22,7 +22,7 @@ var Surface = function()
 	var skyBox;												// Объект класса SkyBox
 	var prevTime;                                           // Предыдущее время
 	var resources;                                          // Ресурсы
-	var terrain;											// Объект класса Terrain
+	var buildings;											// Здания
 	var temple;                                             // Храм
 	var ambientLight, spotLight;                            // Рассеянный свет
 
@@ -55,7 +55,7 @@ var Surface = function()
 		resources.addModel('model/trees/tree4.js');
 
 		// храм
-		resources.addModel('model/temple.js');
+		resources.addModel('model/temple/temple.js');
 
 		resources.load(function() {
 			init();
@@ -132,13 +132,7 @@ var Surface = function()
 	function initWorldObjects() {
 		skyBox = new SkyBox(resources);
 		terrain = new Terrain(resources);
-
-		temple = resources.models.temple;
-		temple.scale.x = temple.scale.y = temple.scale.z = 0.1;
-		temple.position.z = -2.5;
-		temple.position.y = 0.3;
-		temple.castShadow = true;
-		temple.receiveShadow = true;
+		buildings = new Buildings(resources);
 	}
 
 	/**
@@ -171,7 +165,7 @@ var Surface = function()
 		scene.add(controls.getObject()); // Добавляем камеру в сцену
 		scene.add(skyBox.getObject());
 		scene.add(terrain.getObject());
-		scene.add(temple);
+		scene.add(buildings.getObject());
 
 		scene.add(ambientLight);
 		scene.add(spotLight);
