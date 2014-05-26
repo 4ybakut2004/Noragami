@@ -57,6 +57,22 @@ var Resources = function() {
 	// Загружает модель и пытается запустить callback
 	function loadModel(url) {
 		var name = createName(url);
+
+		var loader = new THREE.JSONLoader(true);
+		loader.load(url, function(geometry, materials) {
+			var material = new THREE.MeshFaceMaterial(materials);
+			for(var i = 0; i < materials.length; i++)
+			{
+				materials[i].alphaTest = 0.5;
+				materials[i].side = THREE.DoubleSide;
+				//materials[i].map.anisotropy = 16;
+			}
+			var model = new THREE.Mesh(geometry, material);
+            model.scale.set(0.1, 0.1, 0.1);
+            scope.models[name] = model;
+
+            runCallback();
+        });
 	}
 
 	// Возвращает имя файла без пути и расширения

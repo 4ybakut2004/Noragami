@@ -22,6 +22,9 @@ var Surface = function()
 	var skyBox;												// Объект класса SkyBox
 	var prevTime;                                           // Предыдущее время
 	var resources;                                          // Ресурсы
+	var terrain;											// Объект класса Terrain
+	var temple;                                             // Храм
+	var ambientLight, spotLight;                            // Рассеянный свет
 
 	loadResources();
 
@@ -32,12 +35,27 @@ var Surface = function()
 	function loadResources() {
 		resources = new Resources();
 
+		// текстуры для скайбокса
 		resources.addTexture('image/skybox/grimmnight_rt.jpg');
 		resources.addTexture('image/skybox/grimmnight_lf.jpg');
 		resources.addTexture('image/skybox/grimmnight_up.jpg');
 		resources.addTexture('image/skybox/grimmnight_dn.jpg');
 		resources.addTexture('image/skybox/grimmnight_bk.jpg');
 		resources.addTexture('image/skybox/grimmnight_ft.jpg');
+		
+		// текстуры для пола
+		resources.addTexture('image/floor_trap.jpg');
+		resources.addTexture('image/grass.png');
+		resources.addTexture('image/border.jpg');
+
+		// модельки деревьев
+		resources.addModel('model/trees/tree1.js');
+		resources.addModel('model/trees/tree2.js');
+		resources.addModel('model/trees/tree3.js');
+		resources.addModel('model/trees/tree4.js');
+
+		// храм
+		resources.addModel('model/temple.js');
 
 		resources.load(function() {
 			init();
@@ -52,6 +70,7 @@ var Surface = function()
 		initControls();
 		initRenderer();
 		initWorldObjects();
+		initLight();
 		initScene();
 
 		addEventListeners();
@@ -112,6 +131,35 @@ var Surface = function()
 	*/
 	function initWorldObjects() {
 		skyBox = new SkyBox(resources);
+		terrain = new Terrain(resources);
+
+		temple = resources.models.temple;
+		temple.scale.x = temple.scale.y = temple.scale.z = 0.1;
+		temple.position.z = -2.5;
+		temple.position.y = 0.3;
+		temple.castShadow = true;
+		temple.receiveShadow = true;
+	}
+
+	/**
+	*	Тут инициализируем свет
+	*/
+	function initLight() {
+		ambientLight = new THREE.AmbientLight(0x333333);
+
+		spotLight = new THREE.SpotLight(0xCBE9F5, 0.7, 0, Math.PI / 2, 1);
+		spotLight.position.set(1.5, 3, -7);
+		spotLight.target.position.set(0, 0, 0);
+
+		spotLight.shadowCameraNear = 0.1;
+		spotLight.shadowCameraFar = 15;
+		
+		spotLight.shadowMapBias = 0.003885;
+		spotLight.shadowMapWidth = 512;
+		spotLight.shadowMapHeight = 512;
+		
+		spotLight.castShadow = true;
+		spotLight.shadowDarkness = 0.25;
 	}
 
 	/**
@@ -122,6 +170,11 @@ var Surface = function()
 
 		scene.add(controls.getObject()); // Добавляем камеру в сцену
 		scene.add(skyBox.getObject());
+		scene.add(terrain.getObject());
+		scene.add(temple);
+
+		scene.add(ambientLight);
+		scene.add(spotLight);
 	}
 
 	/**

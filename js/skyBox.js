@@ -18,7 +18,7 @@ var SkyBox = function(resources) {
 
 	skyBox.scale.x = - 1;
 	skyBox.rotation.y = 3.14 / 2 + 3.14;
-
+	
 	this.getObject = function() {
 		return skyBox;
 	};
