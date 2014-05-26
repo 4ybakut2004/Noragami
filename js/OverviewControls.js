@@ -30,7 +30,6 @@ THREE.OverviewControls = function ( camera ) {
 	};
 
 	this.update = function (delta) {
-		console.log(yawObject.rotation.y);
 		var dr = rotationSpeed * delta;
 
 		switch(rotationDirection) {

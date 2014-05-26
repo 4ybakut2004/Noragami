@@ -11,7 +11,9 @@
 		<script src="js/detector.js"></script>
 		<script src="js/detector.js"></script>
 		<script src="js/downPanelControl.js"></script>
+		<script src="js/addAdventWindow.js"></script>
 		<script src="js/OverviewControls.js"></script>
+		<script src="js/Resources.js"></script>
 		
 		<link rel="stylesheet" href="jui/css/base/jquery-ui.css">
 		<script src="jui/js/jquery-ui.min.js"></script>
@@ -19,25 +21,48 @@
 	<body>
 	<div id = "downPanelControl">
 		<ul class = "panelButton">
-			<li class = "addAdvent opacity07 opacityNo"></li>
-			<li class = "editting opacity07 opacityNo"></li>
-			<li class = "avtor opacity07 opacityNo"></li>
+			<li title="Пополнить доску объявлений" class = "editting opacity07 opacityNo"></li>
+			<li title="Настройки" class = "addAdvent opacity07 opacityNo"></li>
+			<li title="Авторский состав" class = "avtor opacity07 opacityNo"></li>
+			<li title="Агитационный материал" class = "baner opacity07 opacityNo"></li>
 		</ul>
 	</div>
+	
+	<!--Разные выпадающие окна-->
 	<div id="editting" title="Настройки">
 		<p>Громкость:</p> 
 		<div id="slider-range-max"></div>
 	</div>
 	<div id="addAdvent" title="Подача объявление/заявку"> 
-		<a href = "#"><img src = "image/no_photo_48.png"/></a>
-		<div class="ui-widget">
-		  <label for="tags">Автор </label>
-		  <input id="tags">
+		<div class="ui-state-highlight ui-corner-all" style = "margin-bottom: 10px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			Сообщение ограничено по числу символов.</p>
 		</div>
-		<textarea></textarea>
+		<img src = "image/no_photo_48.png"/>
+		<input class="tags" placeholder = "URL аватара">
+		<input class="tags" placeholder = "Автор">
+		<input class="tags" placeholder = "Заголовок" style = "width: 99%; margin-bottom: 5px;">
+		<div id = "errorAdvent" class="ui-state-highlight ui-corner-all" style = "margin-bottom: 10px; padding: 0 .7em; display: none">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			Превышен допустимый размер сообщения</p>
+		</div>
+		<textarea class = "advent" placeholder = "Текст объявления..."></textarea>
+		<div class = "footer">
+			<button id = "buttonAddAdvent">Подать</button>
+			<button id = "buttonShowAdvent">Предпросмотр</button>
+			<button id = "buttonCansel">Отмена</button>
+		</div>
 	</div>
 	<div id="avtor" title="Про авторов"> 
-		iyzuf
+		<p>Сайт разработан специально для летней Фандомной битвы 2014 на dairy.ru командой <a href = "#">Noragami</a>.</p>
+		<p>Полный авторский состав будет представлен после деанона.</p>
+	</div>
+	<div id="baner" title="Агитационный материал"> 
+		Тут будет баннер на нашу выкладку и на игру в отдельности.
+	</div>
+	<div id="showAdvent" title="Объявление №"> 
+		<img src = "image/no_photo_48.png"/>
+		
 	</div>
 	</body> 
 </html>

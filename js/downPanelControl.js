@@ -1,20 +1,32 @@
 /**
 * отвечает за событи€, иницилизацию и прочие штуки нижней панели
+* @nameAudio - название трека и путь к нему
 */
-var DownPanelControl = function(){
+var DownPanelControl = function(nameAudio){
 	var self = this;
 	if(typeof options == 'undefined') options = {};
-	var elem = getParam(options.elem, $('#downPanelControl'));			// Ёлемент на который подв€зываем соб€ти€ дл€ страницы новостей
+	var elem = getParam(options.elem, $('#downPanelControl'));		// Ёлемент на который подв€зываем соб€ти€
+	var sound;														// ќбъект класса, отвечающий за проигрывание музыки
+	var addAdventWindow;											// ќбъект класса добавлени€ объ€влени€
 	
 	this.loadPage = function(){
 	
 		elem.on('click', '.addAdvent', {event:'downPanelControl:editting'}, callTriger);
 		elem.on('click', '.editting', {event:'downPanelControl:addAdvent'}, callTriger);
 		elem.on('click', '.avtor', {event:'downPanelControl:avtor'}, callTriger);
+		elem.on('click', '.baner', {event:'downPanelControl:baner'}, callTriger);
 		
 		elem.on('downPanelControl:editting', eventClickEditing);
 		elem.on('downPanelControl:addAdvent', eventClickAddAdvent);
 		elem.on('downPanelControl:avtor', eventClickAvtor);
+		elem.on('downPanelControl:baner', eventClickBaner);
+		
+		addAdventWindow = new AddAdventWindow();
+		addAdventWindow.loadPage();
+		
+		sound = new Sound([nameAudio]);
+		sound.play();
+		sound.setVolume(1);
 		
 		$( "#slider-range-max" ).slider({
 		  range: "max",
@@ -23,6 +35,7 @@ var DownPanelControl = function(){
 		  value: 1,
 		  slide: function( event, ui ) {
 			//ui.value - это значение будет устанавливатьс€ громкостью
+			sound.setVolume(ui.value*0.1);
 		  }
 		});
 		
@@ -39,6 +52,10 @@ var DownPanelControl = function(){
 	
 	function eventClickEditing(){
 		$( "#editting" ).dialog();
+	}
+	
+	function eventClickBaner(){
+		$( "#baner" ).dialog();
 	}
 	
 	/**

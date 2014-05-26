@@ -28,37 +28,59 @@ body{
 
 canvas{  
 	width: 100%; 
-	height: 100%;	
-	position: absolute;
+	height: 100%;
+	position: absolute;	
 }
 
 #downPanelControl{
-	background: url(http://placehold.it/350x50) no-repeat;
-	width: 350px;
+	background: url(http://placehold.it/250x50) no-repeat;
+	width: 250px;
 	height: 50px;
 	position: absolute;
 	bottom: 0px;
-	margin:-50px 0 0 -175px;
+	margin:-50px 0 0 -125px;
 	left:50%;
 }
 
-#editting, #addAdvent, #avtor{
+#editting, #addAdvent, #avtor, #baner, #showAdvent{
 	display: none;
+	width: 91% !important;
 }
 
-#addAdvent a img{
+#addAdvent img{
 	width: 48px;
 	float: left;
-	margin-right: 40px;
+	margin-bottom: 5px;
+	margin-top: 8px;
 }
 
 #addAdvent textarea{
-	width: 100%
+	width: 98.3%;
+	resize: none;
+	height: 70px;
 }
 
-.ui-dialog{
-	width: 400px !important;
+.tags{
+	width: 300px;
+	float: right;
 }
+
+#addAdvent textarea, .tags{
+	background: rgba( 100, 100, 100, 0.5);
+}
+
+.tags::-webkit-input-placeholder{color: #000; padding-left: 5px;}
+.tags:-moz-placeholder{color: #000; padding-left: 5px;}
+.tags::-moz-placeholder{color: #000; padding-left: 5px;}
+.tags:-ms-input-placeholder{color: #000; padding-left: 5px;}
+#addAdvent textarea::-webkit-input-placeholder{color: #000; padding-left: 5px;}
+#addAdvent textarea:-moz-placeholder{color: #000; padding-left: 5px;}
+#addAdvent textarea::-moz-placeholder{color: #000; padding-left: 5px;}
+#addAdvent textarea:-ms-input-placeholder{color: #000; padding-left: 5px;}
+
+.ui-dialog{width: 400px !important;}
+
+.panelButton{margin-left: 7px;}
 
 .panelButton li.opacityNo:hover{
 	 -moz-opacity: 1;
@@ -73,9 +95,7 @@ canvas{
     opacity: 0.7;
     filter: alpha(opacity=70);
 }
-.panelButton{
-	margin: 0px 10px;
-}
+
 .panelButton li{
 	margin-right: 5px;
 	width: 55px;
@@ -88,5 +108,8 @@ canvas{
 .addAdvent{background: url(../image/design/icon.jpg) -7px -8px no-repeat;}
 .editting{background: url(../image/design/icon.jpg) -245px -8px no-repeat;}
 .avtor{background: url(../image/design/icon.jpg) -323px -87px no-repeat;}
+.baner{background: url(../image/design/icon.jpg) -165px -8px no-repeat;}
 
 #slider-range-max{ margin: 10px 0px;}
+
+.footer{float: right}

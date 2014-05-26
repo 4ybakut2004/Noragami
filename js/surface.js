@@ -22,9 +22,28 @@ var Surface = function()
 	var skyBox;												// Объект класса SkyBox
 	var prevTime;                                           // Предыдущее время
 	var resources;                                          // Ресурсы
-	
-	init();
-	animate();
+
+	loadResources();
+
+	/**
+	*	Загружает ресурсы и сохраняет их в объекте resources
+	*   По окончанию загрузки запускает методы init(); и animate();
+	*/
+	function loadResources() {
+		resources = new Resources();
+
+		resources.addTexture('image/skybox/grimmnight_rt.jpg');
+		resources.addTexture('image/skybox/grimmnight_lf.jpg');
+		resources.addTexture('image/skybox/grimmnight_up.jpg');
+		resources.addTexture('image/skybox/grimmnight_dn.jpg');
+		resources.addTexture('image/skybox/grimmnight_bk.jpg');
+		resources.addTexture('image/skybox/grimmnight_ft.jpg');
+
+		resources.load(function() {
+			init();
+			animate();
+		});
+	}
 
 	/**
 	*	инициализация холста и мира
@@ -92,7 +111,7 @@ var Surface = function()
 	*	Тут инициализируем объекты мира
 	*/
 	function initWorldObjects() {
-		skyBox = new SkyBox();
+		skyBox = new SkyBox(resources);
 	}
 
 	/**
@@ -137,6 +156,6 @@ var Surface = function()
 $(document).ready(function() 
 {
 	surface = new Surface();
-	downPanelContol = new DownPanelControl();
+	downPanelContol = new DownPanelControl('./audio/end.ogg');
 	downPanelContol.loadPage();
 });
