@@ -46,7 +46,8 @@ var Surface = function()
 		// текстуры для пола
 		resources.addTexture('image/floor_trap.jpg');
 		resources.addTexture('image/grass.png');
-		resources.addTexture('image/border.jpg');
+		resources.addTexture('image/wood.jpg');
+		resources.addTexture('image/tall.jpg');
 
 		// модельки деревьев
 		resources.addModel('model/trees/tree1.js');
@@ -142,15 +143,15 @@ var Surface = function()
 		ambientLight = new THREE.AmbientLight(0x333333);
 
 		spotLight = new THREE.SpotLight(0xCBE9F5, 0.7, 0, Math.PI / 2, 1);
-		spotLight.position.set(1.5, 3, -7);
+		spotLight.position.set(1.5, 5.5, -7);
 		spotLight.target.position.set(0, 0, 0);
 
 		spotLight.shadowCameraNear = 0.1;
 		spotLight.shadowCameraFar = 15;
 		
 		spotLight.shadowMapBias = 0.003885;
-		spotLight.shadowMapWidth = 512;
-		spotLight.shadowMapHeight = 512;
+		spotLight.shadowMapWidth = 1024;
+		spotLight.shadowMapHeight = 1024;
 		
 		spotLight.castShadow = true;
 		spotLight.shadowDarkness = 0.25;

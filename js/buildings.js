@@ -14,7 +14,6 @@ var Buildings = function(resources) {
 		temple.position.x = 0.045;
 		temple.rotation.x = -3.14/1.98;
 		temple.castShadow = true;
-		temple.receiveShadow = true;
 
 		object.add(temple);
 	}
