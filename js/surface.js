@@ -58,6 +58,8 @@ var Surface = function()
 		resources.addTexture('image/tall.jpg');
 		resources.addTexture('image/advert.jpg');
 
+		resources.addTexture('image/brick.jpg');
+
 		// модельки деревьев
 		resources.addModel('model/trees/tree1.js');
 		resources.addModel('model/trees/tree2.js');
@@ -168,11 +170,11 @@ var Surface = function()
 
 		boardLightLeft = new THREE.SpotLight(0xffffff, 1.3, 0, Math.PI / 9.001, 1);
 		boardLightLeft.position.set(-0.09, -0.1, -0.15);
-		boardLightLeft.target.position.set(-0.3, 0.0, -0.3);
+		boardLightLeft.target.position.set(-0.3, 0.03, -0.3);
 
 		boardLightRight = new THREE.SpotLight(0xffffff, 1.5, 0, Math.PI / 9.001, 1);
 		boardLightRight.position.set(0.09, -0.1, -0.15);
-		boardLightRight.target.position.set(0.3, 0.0, -0.3);
+		boardLightRight.target.position.set(0.3, 0.03, -0.3);
 	}
 
 	function initLights() {
