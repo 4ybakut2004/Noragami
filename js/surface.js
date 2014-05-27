@@ -25,6 +25,12 @@ var Surface = function()
 	var buildings;											// Здания
 	var temple;                                             // Храм
 	var ambientLight, spotLight;                            // Рассеянный свет
+	var boardLightLeft, boardLightRight;                    // Освещение досок
+	var boardSofitLeft, boadrSofitRight;                    // Освещение досок
+	var boardsCtrl;                                         // Объект, управляющий досками объявлений
+
+	var numLights = 10;										// Кол-во светлячков
+	var lights = [];
 
 	loadResources();
 
@@ -46,8 +52,11 @@ var Surface = function()
 		// текстуры для пола
 		resources.addTexture('image/floor_trap.jpg');
 		resources.addTexture('image/grass.png');
+
+		// Текстуры для досок с объявлениями
 		resources.addTexture('image/wood.jpg');
 		resources.addTexture('image/tall.jpg');
+		resources.addTexture('image/advert.jpg');
 
 		// модельки деревьев
 		resources.addModel('model/trees/tree1.js');
@@ -134,6 +143,7 @@ var Surface = function()
 		skyBox = new SkyBox(resources);
 		terrain = new Terrain(resources);
 		buildings = new Buildings(resources);
+		boardsCtrl = new BoardsController(resources);
 	}
 
 	/**
@@ -155,6 +165,40 @@ var Surface = function()
 		
 		spotLight.castShadow = true;
 		spotLight.shadowDarkness = 0.25;
+
+		boardLightLeft = new THREE.SpotLight(0xffffff, 1.3, 0, Math.PI / 9.001, 1);
+		boardLightLeft.position.set(-0.09, -0.1, -0.15);
+		boardLightLeft.target.position.set(-0.3, 0.0, -0.3);
+
+		boardLightRight = new THREE.SpotLight(0xffffff, 1.5, 0, Math.PI / 9.001, 1);
+		boardLightRight.position.set(0.09, -0.1, -0.15);
+		boardLightRight.target.position.set(0.3, 0.0, -0.3);
+	}
+
+	function initLights() {
+		var distance = 0.2;
+
+		for ( var i = 0; i < numLights; i ++ ) {
+			var light = new THREE.PointLight( 0xffffff, 1.1, distance );
+			light.color.setRGB( 0.2, 1.0, 0.2 );
+			scene.add( light );
+			lights.push( light );
+		}
+
+		var geometry = new THREE.SphereGeometry( 0.003, 0.003, 0.003);
+
+		for ( var i = 0; i < numLights; i ++ ) {
+			var light = lights[ i ];
+
+			var material = new THREE.MeshBasicMaterial();
+			material.color = light.color;
+
+			var emitter = new THREE.Mesh( geometry, material );
+			light.position.z = -0.2;
+			emitter.position = light.position;
+
+			scene.add( emitter );
+		}
 	}
 
 	/**
@@ -167,9 +211,14 @@ var Surface = function()
 		scene.add(skyBox.getObject());
 		scene.add(terrain.getObject());
 		scene.add(buildings.getObject());
+		scene.add(boardsCtrl.getObject());
 
 		scene.add(ambientLight);
 		scene.add(spotLight);
+		scene.add(boardLightLeft);
+		scene.add(boardLightRight);
+
+		initLights();
 	}
 
 	/**
@@ -185,6 +234,20 @@ var Surface = function()
 	*	Тут двигаем все, что зависит от времени выполнения такта (delta)
 	*/
 	function update(delta) {
+		var time = Date.now() * 0.00015;
+		for ( var i = 0, il = lights.length; i < il; i ++ ) {
+			var light = lights[ i ];
+			if ( i > 0 ) {
+				x = Math.sin( time + i * 1.7 ) * 0.8;
+				y = Math.cos( time + i * 1.5 ) * 0.16;
+				z = Math.cos( time + i * 1.3 ) * 0.5 - 1;
+			} else {
+				x = Math.sin( time * 3 ) * 0.2;
+				y = -0.03;
+				z = Math.cos( time * 3 ) * 0.35 + 0.01 - 1;
+			}
+			light.position.set( x, y, z );
+		}
 		controls.update(delta);
 	}
 
