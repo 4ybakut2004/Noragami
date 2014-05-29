@@ -168,17 +168,17 @@ var Surface = function()
 		spotLight.castShadow = true;
 		spotLight.shadowDarkness = 0.25;
 
-		boardLightLeft = new THREE.SpotLight(0xffffff, 1.3, 0, Math.PI / 9.001, 1);
+		boardLightLeft = new THREE.SpotLight(0xffffff, 1.3, 0, Math.PI / 9, 1);
 		boardLightLeft.position.set(-0.09, -0.1, -0.15);
-		boardLightLeft.target.position.set(-0.3, 0.03, -0.3);
+		boardLightLeft.target.position.set(-0.3, 0.0, -0.3);
 
-		boardLightRight = new THREE.SpotLight(0xffffff, 1.5, 0, Math.PI / 9.001, 1);
+		boardLightRight = new THREE.SpotLight(0xffffff, 1.5, 0, Math.PI / 9, 1);
 		boardLightRight.position.set(0.09, -0.1, -0.15);
-		boardLightRight.target.position.set(0.3, 0.03, -0.3);
+		boardLightRight.target.position.set(0.3, 0.0, -0.3);
 	}
 
 	function initLights() {
-		var distance = 0.2;
+		var distance = 0.12;
 
 		for ( var i = 0; i < numLights; i ++ ) {
 			var light = new THREE.PointLight( 0xffffff, 1.1, distance );
