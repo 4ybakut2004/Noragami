@@ -51,11 +51,30 @@ var Board = function(resources) {
 		texture.repeat.set(2, 5);
 		texture.anisotropy = 16;
 
+		var mapHeight = resources.textures.wood_height.clone();
+		mapHeight.wrapS = THREE.RepeatWrapping;
+		mapHeight.wrapT = THREE.RepeatWrapping;
+		mapHeight.repeat.set(2, 5);
+		mapHeight.anisotropy = 16;
+		
+		var mapNormal = resources.textures.wood_normal.clone();
+		mapNormal.wrapS = THREE.RepeatWrapping;
+		mapNormal.wrapT = THREE.RepeatWrapping;
+		mapNormal.repeat.set(2, 5);
+		mapNormal.anisotropy = 16;
 		var box = getBox({
 			sizeX: 0.12,
 			sizeY: 0.15,
 			sizeZ: 0.01,
-			texture: texture
+			texture: texture,
+			bumpMap: mapHeight, 
+			bumpScale: 0.5, 
+			normalMap: mapNormal,
+			shininess: 75, 
+			specular: 0x000000, 
+			wrapAround: true, 
+			metal: true, 
+			side: THREE.DoubleSide
 		});
 
 		box.position.y = 0.1;

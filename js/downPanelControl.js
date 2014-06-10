@@ -6,8 +6,10 @@ var DownPanelControl = function(nameAudio){
 	var self = this;
 	if(typeof options == 'undefined') options = {};
 	var elem = getParam(options.elem, $('#downPanelControl'));		// Ёлемент на который подв€зываем соб€ти€
+	var dialogs = getParam(options.elem, $(document));				// Ёлемент на который подв€зываем соб€ти€
 	var sound;														// ќбъект класса, отвечающий за проигрывание музыки
 	var addAdventWindow;											// ќбъект класса добавлени€ объ€влени€
+	
 	
 	this.loadPage = function(){
 	
@@ -15,11 +17,13 @@ var DownPanelControl = function(nameAudio){
 		elem.on('click', '.editting', {event:'downPanelControl:addAdvent'}, callTriger);
 		elem.on('click', '.avtor', {event:'downPanelControl:avtor'}, callTriger);
 		elem.on('click', '.baner', {event:'downPanelControl:baner'}, callTriger);
+		dialogs.on('click', '.closeDialog', {event:'document:closeDialog'}, callTriger);
 		
 		elem.on('downPanelControl:editting', eventClickEditing);
 		elem.on('downPanelControl:addAdvent', eventClickAddAdvent);
 		elem.on('downPanelControl:avtor', eventClickAvtor);
 		elem.on('downPanelControl:baner', eventClickBaner);
+		dialogs.on('document:closeDialog', closeDialog);
 		
 		addAdventWindow = new AddAdventWindow();
 		addAdventWindow.loadPage();
@@ -42,12 +46,16 @@ var DownPanelControl = function(nameAudio){
 		$( document ).tooltip();
 	}
 	
+	function closeDialog(e){
+		$('.closeDialog').eq($('.closeDialog').index(e.context)).parent().dialog('close');
+	}
+	
 	function eventClickAvtor(){
 		$( "#avtor" ).dialog();
 	}
 	
 	function eventClickAddAdvent(){
-		$( "#addAdvent" ).dialog();
+		$('#addAdvent').dialog({width: 481, height: 306, resizable: false});
 	}
 	
 	function eventClickEditing(){

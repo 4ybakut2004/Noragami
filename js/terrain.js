@@ -8,7 +8,7 @@ var Terrain = function(resources) {
 	var borderRight;				// объект правого бордюра
 	var treesLeft = [];             // массив левых деревьев
 	var treesRight = [];            // массив правых деревьев
-	var treesCount = 7;
+	var treesCount = 5;
 
 	init();
 
@@ -28,7 +28,7 @@ var Terrain = function(resources) {
 	* все, что относится к инициализации травы
 	*/
 	function initGrass() {
-		terrain = getPanel(10, 10, resources.textures.grass, 40, 40);
+		terrain = getPanelWithMapHeight(10, 10, resources.textures.grass, 40, 40, 0x000000, resources.textures.grass_normal, resources.textures.grass_height);
 		terrain.rotation.x = 3.14 / 2;
 		terrain.position.y = -0.2;
 		terrain.receiveShadow = true;
@@ -38,7 +38,7 @@ var Terrain = function(resources) {
 	* все, что относится к инициализации тропинки
 	*/
 	function initFootPath() {
-		footpath = getPanel(0.5, 5, resources.textures.floor_trap, 5, 40, 0x777777);
+		footpath = getPanelWithMapHeight(0.5, 5, resources.textures.floor_trap, 2.5, 40, 0x000000, resources.textures.floor_trap_normal, resources.textures.floor_trap_height);
 		footpath.rotation.x = 3.14 / 2;
 		footpath.position.y = -0.198;
 		footpath.receiveShadow = true;
@@ -87,14 +87,14 @@ var Terrain = function(resources) {
 			tree.scale.z = 0.06;
 
 			tree.position.y = -0.2;
-			tree.position.z = - (i % treesCount) * 1.5 / treesCount - 0.4;
+			tree.position.z = - (i % treesCount) * 1.2 / treesCount - 0.5;
 
 			if(i < treesCount) {
-				tree.position.x = -0.5;
+				tree.position.x = -0.45;
 				treesLeft.push(tree);
 			}
 			else {
-				tree.position.x = 0.5;
+				tree.position.x = 0.45;
 				treesRight.push(tree);
 			}
 

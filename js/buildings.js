@@ -18,21 +18,24 @@ var Buildings = function(resources) {
 
 		object.add(temple);
 		
-		fence = getPanel(6, 0.5, resources.textures.brick, 12, 1);
+		fence = getPanelWithMapHeight(6, 0.5, resources.textures.brick, 20, 1, 0x000000,resources.textures.brick_normal, resources.textures.brick_height);
 		fence.position.x = 0;
 		fence.position.z = -2.5;
+		fence.castShadow = true;
 		object.add(fence);
 		
-		fence = getPanel(3, 0.5, resources.textures.brick, 6, 1);
+		fence = getPanelWithMapHeight(3, 0.5, resources.textures.brick, 10, 1, 0x000000,resources.textures.brick_normal, resources.textures.brick_height);
 		fence.position.x = -2.5;
 		fence.position.z = -2;
 		fence.rotation.y = 3.14/2;
+		fence.castShadow = true;
 		object.add(fence);
 		
-		fence = getPanel(3, 0.5, resources.textures.brick, 6, 1);
+		fence = getPanelWithMapHeight(3, 0.5, resources.textures.brick, 10, 1, 0x000000,resources.textures.brick_normal, resources.textures.brick_height);
 		fence.position.x = 2.5;
 		fence.position.z = -2;
 		fence.rotation.y = 3.14/2;
+		fence.castShadow = true;
 		object.add(fence);
 	}
 
